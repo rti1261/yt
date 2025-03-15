@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "YouTube Auto Enhancer",
+    "version": "1.0",
+    "description": "Automatically plays next videos, skips ads, and sets video quality.",
+    "permissions": ["storage", "tabs"],
+    "host_permissions": ["https://www.youtube.com/*"],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://www.youtube.com/*"],
+            "js": ["content1.js", "content2.js", "content3.js", "content4.js", "content5.js"]
+        }
+    ]
+}
