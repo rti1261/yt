@@ -1,28 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const input = document.getElementById("specialVideoURL");
-    const saveButton = document.getElementById("saveURL");
+    let specialVideoInput = document.getElementById("specialVideoURL");
+    let waitTimeInput = document.getElementById("waitTime");
+    let saveButton = document.getElementById("saveSettings");
 
-    // Load stored video ID
-    chrome.storage.sync.get("specialVideoID", function (data) {
+    // Load saved values
+    chrome.storage.sync.get(["specialVideoID", "waitTime"], function (data) {
         if (data.specialVideoID) {
-            input.value = `https://www.youtube.com/watch?v=${data.specialVideoID}`;
+            specialVideoInput.value = `https://www.youtube.com/watch?v=${data.specialVideoID}`;
+        }
+        if (data.waitTime) {
+            waitTimeInput.value = data.waitTime / 60000; // Convert ms to minutes
         }
     });
 
-    // Extract Video ID and Save
     saveButton.addEventListener("click", function () {
-        const url = input.value.trim();
-        try {
-            const videoID = new URL(url).searchParams.get("v");
-            if (videoID) {
-                chrome.storage.sync.set({ specialVideoID: videoID }, function () {
-                    alert("Special video ID saved!");
-                });
-            } else {
-                alert("Invalid YouTube URL");
-            }
-        } catch (e) {
-            alert("Invalid URL format");
+        let specialVideoURL = specialVideoInput.value;
+        let videoID = new URL(specialVideoURL).searchParams.get("v"); // Extract video ID
+        let waitTime = parseInt(waitTimeInput.value) * 60000; // Convert minutes to milliseconds
+
+        if (videoID) {
+            chrome.storage.sync.set({ "specialVideoID": videoID, "waitTime": waitTime }, function () {
+                console.log("Settings saved:", videoID, waitTime);
+            });
+        } else {
+            alert("Please enter a valid YouTube video URL.");
         }
     });
 });
