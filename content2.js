@@ -19,12 +19,13 @@ function getYouTubeVideoId() {
 }
 
 function checkVideoIdAndStart() {
-    chrome.storage.sync.get("specialVideoID", function (data) {
+    chrome.storage.sync.get(["specialVideoID", "waitTime"], function (data) {
         let specialVideoID = data.specialVideoID;
+        let waitTime = data.waitTime || 3600000; // Default to 1 hour (60 minutes) if not set
 
         if (getYouTubeVideoId() === specialVideoID) {
-            console.log("Video ID matched! Starting 2-minute countdown...");
-            setTimeout(playNextVideo, 120000);
+            console.log(`Video ID matched! Starting countdown of ${waitTime / 60000} minutes...`);
+            setTimeout(playNextVideo, waitTime);
         } else {
             console.log("Video ID does not match. Checking again in 5 seconds...");
             setTimeout(checkVideoIdAndStart, 5000);
