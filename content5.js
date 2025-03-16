@@ -75,6 +75,19 @@ function randomSkipKeyPress() {
   }
 }
 
+    // Function to randomly trigger a left arrow key press to seek backward
+function randomSeekBackward() {
+  let video = document.querySelector('video');
+  if (video) {
+    let intervals = [31800, 4440, 1680, 5640]; // Intervals in milliseconds
+    
+    setInterval(() => {
+      // Simulate right arrow key press to skip forward
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', code: 'ArrowLeft', keyCode: 37, which: 37 }));
+    }, intervals[Math.floor(Math.random() * intervals.length)]);
+  }
+}
+
     // Function to randomly scroll down and then back up with random timings
     function randomScroll() {
       setInterval(() => {
@@ -116,6 +129,7 @@ function randomSkipKeyPress() {
     // Start random pause/play, skip, random scroll, and auto resume
     randomPausePlay();
     randomSkipKeyPress();
+    randomSeekBackward();
     randomScroll();
     autoResumeVideo();
 })();
