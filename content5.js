@@ -39,7 +39,8 @@
     window.dispatchEvent(new Event('focus'));
 
     console.log('Tab visibility spoofing active');
-
+    
+// Function to randomly trigger a play and pause
 function randomPausePlay() {
   let video = document.querySelector('video');
   if (!video) return;
