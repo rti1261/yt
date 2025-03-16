@@ -79,7 +79,7 @@ function randomSkipKeyPress() {
 function randomSeekBackward() {
   let video = document.querySelector('video');
   if (video) {
-    let intervals = [31800, 4440, 1680, 5640]; // Intervals in milliseconds
+    let intervals = [477000, 666000, 720000, 846000]; // Intervals in milliseconds
     
     setInterval(() => {
       // Simulate right arrow key press to skip forward
