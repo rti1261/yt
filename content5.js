@@ -62,19 +62,18 @@ function randomPausePlay() {
 }
 
 
-    // Function to skip the video ahead by a random time every random interval
-    function randomSkip() {
-      let video = document.querySelector('video');
-      if (video) {
-        let skipTimes = [7.5, 11.3, 14.8];
-        let intervals = [318000, 444000, 168000, 564000]; 
-
-        setInterval(() => {
-          let randomSkipTime = skipTimes[Math.floor(Math.random() * skipTimes.length)];
-          video.currentTime += randomSkipTime;
-        }, intervals[Math.floor(Math.random() * intervals.length)]);
-      }
-    }
+// Function to randomly trigger a right arrow key press to skip forward
+function randomSkipKeyPress() {
+  let video = document.querySelector('video');
+  if (video) {
+    let intervals = [318000, 444000, 168000, 564000]; // Intervals in milliseconds
+    
+    setInterval(() => {
+      // Simulate right arrow key press to skip forward
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', code: 'ArrowRight', keyCode: 39, which: 39 }));
+    }, intervals[Math.floor(Math.random() * intervals.length)]);
+  }
+}
 
     // Function to randomly scroll down and then back up with random timings
     function randomScroll() {
@@ -116,7 +115,7 @@ function randomPausePlay() {
 
     // Start random pause/play, skip, random scroll, and auto resume
     randomPausePlay();
-    randomSkip();
+    randomSkipKeyPress();
     randomScroll();
     autoResumeVideo();
 })();
