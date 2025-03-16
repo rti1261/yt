@@ -158,29 +158,30 @@ function simulateMouseScroll() {
     executeScrollSequence(); // Start loop
 }
 
-    // Function to auto-resume the video if paused for 1 minute
-    function autoResumeVideo() {
-      let video = document.querySelector('video');
-      let pauseStartTime = null;
+// Function to auto-resume the video if paused for 1 minute
+function autoResumeVideo() {
+  let video = document.querySelector('video');
+  let pauseStartTime = null;
 
-      if (video) {
-        setInterval(() => {
-          if (video.paused) {
-            if (!pauseStartTime) {
-              pauseStartTime = Date.now();
-            } else {
-              const pausedDuration = (Date.now() - pauseStartTime) / 1000;
-              if (pausedDuration >= 60) {
-                video.play();
-                pauseStartTime = null;
-              }
-            }
-          } else {
+  if (video) {
+    setInterval(() => {
+      if (video.paused) {
+        if (!pauseStartTime) {
+          pauseStartTime = Date.now();
+        } else {
+          const pausedDuration = (Date.now() - pauseStartTime) / 1000;
+          if (pausedDuration >= 60) {
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', code: 'KeyK', keyCode: 75, which: 75 }));
             pauseStartTime = null;
           }
-        }, 1000);
+        }
+      } else {
+        pauseStartTime = null;
       }
-    }
+    }, 1000);
+  }
+}
+
 
     // Start random pause/play, skip, random scroll, and auto resume
     randomPausePlay();
