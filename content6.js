@@ -31,16 +31,34 @@ chrome.storage.local.get("trackingData", function(result) {
     return { x: adjustedX, y: adjustedY };
   }
 
-  // Function to simulate the events in order
+  // Sync the tracking data with the current time
+  function synchronizeWithRealTime() {
+    const currentTime = new Date().getTime();
+    const firstEventTime = timeToMilliseconds(trackingData[0].time);
+    const timeDifference = currentTime - firstEventTime;
+
+    // Adjust the timestamps of each event based on the current time
+    return trackingData.map(entry => {
+      const adjustedTime = timeToMilliseconds(entry.time) + timeDifference;
+      return {
+        ...entry,
+        time: new Date(adjustedTime).toISOString(),
+      };
+    });
+  }
+
+  // Function to simulate the events in order, now synchronized with real-time
   function simulateEvents() {
-    trackingData.forEach((entry, index) => {
+    const adjustedTrackingData = synchronizeWithRealTime();
+    
+    adjustedTrackingData.forEach((entry, index) => {
       const { time, event, x, y } = entry;
       const adjusted = adjustCoordinates(x, y);
 
       // Wait for the correct time to simulate the event
       setTimeout(() => {
         simulateMouseEvent(event, adjusted.x, adjusted.y);
-      }, timeToMilliseconds(time) - timeToMilliseconds(trackingData[0].time));
+      }, timeToMilliseconds(time) - timeToMilliseconds(adjustedTrackingData[0].time));
     });
   }
 
