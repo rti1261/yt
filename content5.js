@@ -82,7 +82,7 @@ function randomSeekBackward() {
     let intervals = [477000, 666000, 720000, 846000]; // Intervals in milliseconds
     
     setInterval(() => {
-      // Simulate right arrow key press to skip forward
+      // Simulate right arrow key press to skip backward
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', code: 'ArrowLeft', keyCode: 37, which: 37 }));
     }, intervals[Math.floor(Math.random() * intervals.length)]);
   }
