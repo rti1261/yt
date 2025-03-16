@@ -40,21 +40,27 @@
 
     console.log('Tab visibility spoofing active');
 
-    // Function to randomly pause and play the video with randomized intervals
-    function randomPausePlay() {
-      let video = document.querySelector('video');
-      if (video) {
-        let interval = [618000, 768000, 876000][Math.floor(Math.random() * 3)];
+function randomPausePlay() {
+  let video = document.querySelector('video');
+  if (!video) return;
 
-        setInterval(() => {
-          if (!video.paused) {
-            video.pause();
-            let randomPlayDelay = [1000, 2000, 3000, 4000][Math.floor(Math.random() * 4)];
-            setTimeout(() => video.play(), randomPlayDelay);
-          }
-        }, interval);
-      }
+  let interval = [618000, 768000, 876000][Math.floor(Math.random() * 3)];
+
+  setInterval(() => {
+    if (!video.paused) {
+      // Simulate pressing 'K' to pause
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', code: 'KeyK', keyCode: 75, which: 75 }));
+
+      let randomPlayDelay = [1000, 2000, 3000, 4000][Math.floor(Math.random() * 4)];
+
+      setTimeout(() => {
+        // Simulate pressing 'K' to resume
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', code: 'KeyK', keyCode: 75, which: 75 }));
+      }, randomPlayDelay);
     }
+  }, interval);
+}
+
 
     // Function to skip the video ahead by a random time every random interval
     function randomSkip() {
