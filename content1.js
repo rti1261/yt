@@ -18,14 +18,17 @@
                 return;
             }
 
-            let nextButton = document.querySelector(".ytp-next-button");
-            if (nextButton) {
-                nextButton.click();
-                console.log("Playing next video...");
-                scheduleSpecialVideo(specialVideoID);
-            } else {
-                console.log("Next button not found.");
-            }
+            // Simulate Shift + N key press to play next video
+            document.dispatchEvent(new KeyboardEvent('keydown', {
+                key: 'N',
+                code: 'KeyN',
+                keyCode: 78,
+                which: 78,
+                shiftKey: true
+            }));
+
+            console.log("Playing next video...");
+            scheduleSpecialVideo(specialVideoID);
         });
     }
 
