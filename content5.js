@@ -89,18 +89,73 @@ function randomSeekBackward() {
 }
 
     // Function to randomly scroll down and then back up with random timings
-    function randomScroll() {
-      setInterval(() => {
-        let scrollAmount = Math.floor(Math.random() * 21) + 20;
-        window.scrollBy(0, scrollAmount);
+function simulateMouseScroll() {
+    const scrollSequences = [
+        // First scroll sequence
+        [
+            { direction: "down", amount: 100, delay: 0 },
+            { direction: "down", amount: 100, delay: 1000 },
+            { direction: "up", amount: 100, delay: 2000 }
+        ],
+        // Second scroll sequence
+        [
+            { direction: "down", amount: 100, delay: 0 },
+            { direction: "up", amount: 100, delay: 1000 }
+        ],
+        // Third scroll sequence
+        [
+            { direction: "down", amount: 100, delay: 0 },
+            { direction: "up", amount: 100, delay: 1000 }
+        ],
+        // Fourth scroll sequence
+        [
+            { direction: "down", amount: 100, delay: 0 },
+            { direction: "up", amount: 100, delay: 1000 },
+            { direction: "down", amount: 100, delay: 2000 },
+            { direction: "up", amount: 100, delay: 3000 },
+            { direction: "up", amount: 100, delay: 4000 }
+        ]
+    ];
 
-        let scrollBackTime = [1500, 2000, 3400][Math.floor(Math.random() * 3)];
-        
-        setTimeout(() => {
-          window.scrollBy(0, -scrollAmount);
-        }, scrollBackTime);
-      }, [58000, 70000, 100000][Math.floor(Math.random() * 3)]);
+    function executeScrollSequence() {
+        let selectedSequence = scrollSequences[Math.floor(Math.random() * scrollSequences.length)]; // Pick a random sequence
+
+        selectedSequence.forEach((scroll) => {
+            setTimeout(() => {
+                let scrollAmount = scroll.direction === "down" ? scroll.amount : -scroll.amount;
+
+                // Simulate real mouse wheel scrolling
+                let event = new WheelEvent("wheel", {
+                    deltaY: scrollAmount,
+                    bubbles: true,
+                    cancelable: true,
+                    composed: true
+                });
+
+                // Dispatch event to simulate scroll
+                let target = document.documentElement || document.body;
+                target.dispatchEvent(event);
+
+                // Fallback: Ensure scrolling works
+                window.scrollBy({
+                    top: scrollAmount,
+                    left: 0,
+                    behavior: "smooth" // Optional for smooth scrolling
+                });
+
+                console.log(`[${new Date().toLocaleTimeString()}] Simulated scroll ${scroll.direction} | Amount: ${scroll.amount}`);
+            }, scroll.delay);
+        });
+
+        // Schedule next scroll sequence at a random interval between 1 to 2 minutes
+        let nextExecutionTime = Math.floor(Math.random() * (120000 - 60000) + 60000); // Random between 60s and 120s
+        console.log(`Next scroll sequence will run in ${(nextExecutionTime / 1000).toFixed(1)} seconds.`);
+
+        setTimeout(executeScrollSequence, nextExecutionTime); // Recursively loop with random time
     }
+
+    executeScrollSequence(); // Start loop
+}
 
     // Function to auto-resume the video if paused for 1 minute
     function autoResumeVideo() {
@@ -130,6 +185,6 @@ function randomSeekBackward() {
     randomPausePlay();
     randomSkipKeyPress();
     randomSeekBackward();
-    randomScroll();
+    simulateMouseScroll();
     autoResumeVideo();
 })();
