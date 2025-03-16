@@ -1,16 +1,19 @@
 function playNextVideo() {
-    const nextButton = document.querySelector('a.ytp-next-button');
-    if (nextButton) {
-        nextButton.click();
-        console.log("Next video played. Generating random wait time...");
-
-        let waitTime = Math.floor(Math.random() * (120 - 60 + 1) + 60) * 1000;
-        console.log(`Waiting for ${waitTime / 1000} seconds before playing the next video.`);
-
-        setTimeout(playNextVideo, waitTime);
-    } else {
-        console.log("Next button not found, stopping execution.");
-    }
+    console.log("Next video played using Shift + N. Generating random wait time...");
+    
+    // Simulate Shift + N key press to play the next video
+    document.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'N',
+        code: 'KeyN',
+        keyCode: 78,
+        which: 78,
+        shiftKey: true
+    }));
+    
+    let waitTime = Math.floor(Math.random() * (120 - 60 + 1) + 60) * 1000;
+    console.log(`Waiting for ${waitTime / 1000} seconds before playing the next video.`);
+    
+    setTimeout(playNextVideo, waitTime);
 }
 
 function getYouTubeVideoId() {
