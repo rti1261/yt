@@ -66,7 +66,7 @@ function randomPausePlay() {
 function randomSkipKeyPress() {
   let video = document.querySelector('video');
   if (video) {
-    let intervals = [318000, 444000, 168000, 564000]; // Intervals in milliseconds
+    let intervals = [318000, 444000, 480000, 564000]; // Intervals in milliseconds
     
     setInterval(() => {
       // Simulate right arrow key press to skip forward
